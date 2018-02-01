@@ -1,6 +1,7 @@
 package com.marcoscarneiro.cursomc.services;
 
 import com.marcoscarneiro.cursomc.domain.Categoria;
+import com.marcoscarneiro.cursomc.domain.Cliente;
 import com.marcoscarneiro.cursomc.dto.CategoriaDTO;
 import com.marcoscarneiro.cursomc.repositories.CategoriaRepository;
 import com.marcoscarneiro.cursomc.services.exceptions.DataIntegrityException;
@@ -34,8 +35,9 @@ public class CategoriaService {
     }
 
     public Categoria update(Categoria obj){
-        find(obj.getId());
-        return repo.save(obj);
+        Categoria newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return repo.save(newObj);
     }
 
     public void delete(Integer id){
@@ -59,5 +61,9 @@ public class CategoriaService {
 
     public Categoria fromDTO(CategoriaDTO objDto){
         return new Categoria(objDto.getId(), objDto.getNome());
+    }
+
+    private void updateData(Categoria newObj, Categoria obj){
+        newObj.setNome(obj.getNome());
     }
 }
